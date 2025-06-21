@@ -11,8 +11,8 @@ def load_data(file_path):
         return None
 
 # copiar ruta de los archivos
-siniestros_path = 'C:/Users/User_001/Documents/PACD/proyecto/BBDD ONSV - SINIESTROS 2021-2023.xlsx' # modificar según sea necesario
-vehiculos_path = 'C:/Users/User_001/Documents/PACD/proyecto/BBDD ONSV - VEHICULOS 2021-2023.xlsx' # modificar según sea necesario
+siniestros_path = '../proyecto-pacd/BBDD ONSV - SINIESTROS 2021-2023.xlsx' # modificar según sea necesario
+vehiculos_path = '../proyecto-pacd/BBDD ONSV - VEHICULOS 2021-2023.xlsx' # modificar según sea necesario
 
 # cargar datos
 siniestros = load_data(siniestros_path)
