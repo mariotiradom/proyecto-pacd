@@ -129,6 +129,7 @@ layout = html.Div([
     dcc.Tabs(id='tabs', value='tab-1', children=[
         dcc.Tab(label='Dashboard Principal', value='tab-1'),
         dcc.Tab(label='Dashboard Relacionado', value='tab-2'),
+        dcc.Tab(label='Dashboard Densidad Ubicación', value='tab-3'),
     ]),
 
     html.Div(id='tabs-content')
@@ -245,22 +246,22 @@ def render_content(tab, selected_years, selected_months, selected_department, se
         siniestro_vs_via = filtered_df.groupby(['CLASE SINIESTRO', 'TIPO DE VÍA']).size().reset_index(name='counts')
         map_sin_via = siniestro_vs_via.pivot(index='CLASE SINIESTRO', columns='TIPO DE VÍA', values='counts').fillna(0)
         heatmap_siniesto_via = px.imshow(map_sin_via, text_auto=True, color_continuous_scale='Blues', title='Mapa de calor de siniestros por tipo de vía')
-        heatmap_siniesto_via.update_layout(height=600, width=700, font = dict(size = 10))
+
 
         siniestro_vs_surface = filtered_df.groupby(['CLASE SINIESTRO', 'SUPERFICIE DE CALZADA']).size().reset_index(name='counts')
         map_sin_surf = siniestro_vs_surface.pivot(index='CLASE SINIESTRO', columns='SUPERFICIE DE CALZADA', values='counts').fillna(0)
         heatmap_siniesto_surf = px.imshow(map_sin_surf, text_auto=True, color_continuous_scale='Blues', title='Mapa de calor de siniestros por superficie de calzada')
-        heatmap_siniesto_surf.update_layout(height=600, width=700, font = dict(size = 10))
+
 
         siniestro_vs_weather = filtered_df.groupby(['CLASE SINIESTRO', 'CONDICIÓN CLIMÁTICA']).size().reset_index(name='counts')
         map_sin_wthr = siniestro_vs_weather.pivot(index='CLASE SINIESTRO', columns='CONDICIÓN CLIMÁTICA', values='counts').fillna(0)
         heatmap_siniesto_wthr = px.imshow(map_sin_wthr, text_auto=True, color_continuous_scale='Blues', title='Mapa de calor de siniestros por condición climática')
-        heatmap_siniesto_wthr.update_layout(height=600, width=700, font = dict(size = 10))
+
 
         siniestro_vs_vehicle = filtered_df.groupby(['CLASE SINIESTRO', 'VEHÍCULO']).size().reset_index(name='counts')
         map_sin_vType = siniestro_vs_vehicle.pivot(index='CLASE SINIESTRO', columns='VEHÍCULO', values='counts').fillna(0)
         heatmap_siniesto_vType = px.imshow(map_sin_vType, text_auto=True, color_continuous_scale='Blues', title='Mapa de calor de siniestros por tipo de vehículo')
-        heatmap_siniesto_vType.update_layout(height=600, width=700, font = dict(size = 10))
+
 
         return html.Div([
             html.Div([
@@ -271,5 +272,15 @@ def render_content(tab, selected_years, selected_months, selected_department, se
                 dcc.Graph(figure=heatmap_siniesto_wthr),
                 dcc.Graph(figure=heatmap_siniesto_vType)
             ], style={'display': 'flex', 'gap': '20px', 'marginTop': '20px'})
-        ])    
+        ])
+    elif tab == 'tab-3':
+        siniestros_por_ubi = filtered_df.groupby(['COORDENADAS LATITUD', 'COORDENADAS  LONGITUD']).size().reset_index()
+        # visualización base de siniestros por ubicación
+        density_map_ubi = px.density_map(siniestros_por_ubi, lat = 'COORDENADAS LATITUD', lon = 'COORDENADAS  LONGITUD', radius = 10, title = 'Siniestros por ubicación')
+        density_map_ubi.update_layout(height=600, width=1600, font = dict(size = 10))
+        return html.Div([
+            html.Div([
+                dcc.Graph(figure=density_map_ubi),
+            ], style={'display': 'flex', 'gap': '20px'}),
+        ])   
     

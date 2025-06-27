@@ -67,19 +67,19 @@ layout = html.Div([
     html.Div(id='output-deps'),
 
     html.Div([
-        dcc.Graph(id = 'graph1', style={'flex': '1', 'height': '45vh'}),
-        dcc.Graph(id = 'graph2', style={'flex': '1', 'height': '45vh'}),
-        dcc.Graph(id = 'graph3', style={'flex': '1', 'height': '45vh'}),
-        dcc.Graph(id = 'graph4', style={'flex': '1', 'height': '45vh'}),
-    ], style={'display': 'flex', 'gap': '10px', 'width': '100vw'}),
+        dcc.Graph(id = 'graph1', style={'flex': '1'}),
+        dcc.Graph(id = 'graph2', style={'flex': '1'}),
+        dcc.Graph(id = 'graph3', style={'flex': '1'}),
+        dcc.Graph(id = 'graph4', style={'flex': '1'}),
+    ], style={'display': 'flex', 'gap': '10px'}),
 
     html.Div([
-        dcc.Graph(id = 'graph5', style={'flex': '1', 'height': '45vh'}),
-        dcc.Graph(id = 'graph6', style={'flex': '1', 'height': '45vh'}),
-        dcc.Graph(id = 'graph7', style={'flex': '1', 'height': '45vh'}),
-        dcc.Graph(id = 'graph8', style={'flex': '1', 'height': '45vh'}),
-    ], style={'display': 'flex', 'gap': '10px', 'width': '100vw', 'marginTop': '10px'})
-], style={'height': '100vh', 'overflow': 'hidden'})
+        dcc.Graph(id = 'graph5', style={'flex': '1'}),
+        dcc.Graph(id = 'graph6', style={'flex': '1'}),
+        dcc.Graph(id = 'graph7', style={'flex': '1'}),
+        dcc.Graph(id = 'graph8', style={'flex': '1'}),
+    ], style={'display': 'flex', 'gap': '10px', 'marginTop': '10px'})
+], )
 
 @callback(
     Output('output-deps', 'children'),
@@ -108,19 +108,10 @@ def update_graphs(dep1, dep2):
     filtro_dep1 = df_siniestros["DEPARTAMENTO"] == dep1
     df_dep_1 = df_siniestros.loc[filtro_dep1]
 
-    # para vehiculos
-    filtro_dep1_v = vehiculos_siniestros["DEPARTAMENTO"] == dep1
-    df_dep_1_v = vehiculos_siniestros.loc[filtro_dep1_v]
 
     # agrupar variables para hacer la prueba debido a que las frecuencias son menores a 5 en estas categorías
     df_dep_1['clase_siniestro_mod'] = df_dep_1['CLASE SINIESTRO'].replace(to_replace=['CAÍDA DE PASAJERO', 'CHOQUE FUGA', 'VOLCADURA', 'ATROPELLO FUGA'], value=4*["OTROS"])
     df_dep_1['vehiculo_mod'] = df_dep_1['VEHÍCULO']  # Usando las categorías originales de vehículo
-
-    # para vehiculos vs siniestros
-    df_dep_1_v['vehiculo_mod'] = df_dep_1_v['VEHÍCULO'].replace(to_replace=['CAMIONETA', 'MOTOCICLETA', 'AUTOMÓVIL'], value=3*['OTROS VEHÍCULOS'])
-    df_dep_1_v['clase_siniestro_mod'] = df_dep_1_v['CLASE SINIESTRO'].replace(to_replace=['CAÍDA DE PASAJERO', 'CHOQUE FUGA', 'VOLCADURA', 'ATROPELLO FUGA'], value=4*["OTROS"])
-
-
     df_dep_1['tipo_via_mod'] = df_dep_1['TIPO DE VÍA'].replace(to_replace=["JIRÓN",'PASAJE','OTRO'],value=3*['OTRAS VÍAS'])
     # agregar el clima
     if dep1 == "LIMA":
@@ -139,7 +130,7 @@ def update_graphs(dep1, dep2):
 
         tabla_clima_dep1 = pd.crosstab(df_dep_1['SINIESTRO AGRUPADO'], df_dep_1['CLIMA AGRUPADO'])
     # b. Creación de tabla de doble entrada 
-    tabla_veh_dep1 = pd.crosstab(df_dep_1_v['clase_siniestro_mod'], df_dep_1_v['vehiculo_mod'])
+    tabla_veh_dep1 = pd.crosstab(df_dep_1['clase_siniestro_mod'], df_dep_1['vehiculo_mod'])
     tabla_via_dep1 = pd.crosstab(df_dep_1['clase_siniestro_mod'], df_dep_1['tipo_via_mod'])
     tabla_surf_dep1 = pd.crosstab(df_dep_1['clase_siniestro_mod'], df_dep_1['SUPERFICIE DE CALZADA'])
     if dep1 != "LIMA":
@@ -149,16 +140,9 @@ def update_graphs(dep1, dep2):
     filtro_dep2 = df_siniestros["DEPARTAMENTO"] == dep2
     df_dep_2 = df_siniestros.loc[filtro_dep2] 
 
-    # para vehiculos
-    filtro_dep2_v = vehiculos_siniestros["DEPARTAMENTO"] == dep2
-    df_dep_2_v = vehiculos_siniestros.loc[filtro_dep2_v]
-
     # agrupar variables para hacer la prueba debido a que las frecuencias son menores a 5 en estas categorías
     df_dep_2['clase_siniestro_mod'] = df_dep_2['CLASE SINIESTRO'].replace(to_replace=['CAÍDA DE PASAJERO', 'CHOQUE FUGA', 'VOLCADURA', 'ATROPELLO FUGA'], value=4*["OTROS"])
     df_dep_2['vehiculo_mod'] = df_dep_2['VEHÍCULO']  # Usando las categorías originales de vehículo
-    # para vehiculos vs siniestros
-    df_dep_2_v['vehiculo_mod'] = df_dep_2_v['VEHÍCULO'].replace(to_replace=['CAMIONETA', 'MOTOCICLETA', 'AUTOMÓVIL'], value=3*['OTROS VEHÍCULOS'])
-    df_dep_2_v['clase_siniestro_mod'] = df_dep_2_v['CLASE SINIESTRO'].replace(to_replace=['CAÍDA DE PASAJERO', 'CHOQUE FUGA', 'VOLCADURA', 'ATROPELLO FUGA'], value=4*["OTROS"])
 
 
     df_dep_2['tipo_via_mod'] = df_dep_2['TIPO DE VÍA'].replace(to_replace=["JIRÓN",'PASAJE','OTRO'],value=3*['OTRAS VÍAS'])
@@ -173,7 +157,7 @@ def update_graphs(dep1, dep2):
 
 
     # b. Creación de tabla de doble entrada 
-    tabla_veh_dep2 = pd.crosstab(df_dep_2_v['clase_siniestro_mod'], df_dep_2_v['vehiculo_mod'])
+    tabla_veh_dep2 = pd.crosstab(df_dep_2['clase_siniestro_mod'], df_dep_2['vehiculo_mod'])
     tabla_via_dep2 = pd.crosstab(df_dep_2['clase_siniestro_mod'], df_dep_2['tipo_via_mod'])
     tabla_surf_dep2 = pd.crosstab(df_dep_2['clase_siniestro_mod'], df_dep_2['SUPERFICIE DE CALZADA'])
     if dep2 != "LIMA":
@@ -213,49 +197,49 @@ def update_graphs(dep1, dep2):
                               'Tipo de Vehículo',
                               'Tipo de Siniestro'
                               ) 
-    figura_4.update_layout(height=300, width=350, font = dict(size = 9))
+    figura_4.update_layout(font = dict(size = 9))
     figura_1 = grafico_mapa_calor_interactivo(tabla_via_dep1, 
                               f"Frecuencias de Tipo de Siniestro vs Tipo de Vía en {dep1}", 
                               'Tipo de Vía',
                               'Tipo de Siniestro'
                               )  
-    figura_1.update_layout(height=300, width=350, font = dict(size = 9))
+    figura_1.update_layout(font = dict(size = 9))
     figura_3 = grafico_mapa_calor_interactivo(tabla_clima_dep1, 
                               f"Frecuencias de Tipo de Siniestro vs Clima en {dep1}",
                               'Clima',
                               'Tipo de Siniestro'
                               )
-    figura_3.update_layout(height=300, width=350, font = dict(size = 9))
+    figura_3.update_layout(font = dict(size = 9))
     figura_2 = grafico_mapa_calor_interactivo(tabla_surf_dep1, 
                               f"Frecuencias de Tipo de Siniestro vs Superficie de calzada en {dep1}", 
                               'Superficie de Calzada',
                               'Tipo de Siniestro'
                               )
-    figura_2.update_layout(height=300, width=350, font = dict(size = 9))
+    figura_2.update_layout(font = dict(size = 9))
     
     figura_8 = grafico_mapa_calor_interactivo(tabla_veh_dep2, 
                               f"Frecuencias de Tipo de Siniestro vs Tipo de Vehículo en {dep2}", 
                               'Tipo de Vehículo',
                               'Tipo de Siniestro'
                               ) 
-    figura_8.update_layout(height=300, width=350, font = dict(size = 9))
+    figura_8.update_layout(font = dict(size = 9))
     figura_5 = grafico_mapa_calor_interactivo(tabla_via_dep2, 
                               f"Frecuencias de Tipo de Siniestro vs Tipo de Vía en {dep2}", 
                               'Tipo de Vía',
                               'Tipo de Siniestro'
                               )  
-    figura_5.update_layout(height=300, width=350, font = dict(size = 9))
+    figura_5.update_layout(font = dict(size = 9))
 
     figura_6 = grafico_mapa_calor_interactivo(tabla_surf_dep2, 
                               f"Frecuencias de Tipo de Siniestro vs Superficie de calzada en {dep2}", 
                               'Superficie de Calzada',
                               'Tipo de Siniestro'
                               )
-    figura_6.update_layout(height=300, width=350, font = dict(size = 9))
+    figura_6.update_layout(font = dict(size = 9))
     figura_7 = grafico_mapa_calor_interactivo(tabla_clima_dep2, 
                               f"Frecuencias de Tipo de Siniestro vs Clima en {dep2}",
                               'Clima',
                               'Tipo de Siniestro'
                               )
-    figura_7.update_layout(height=300, width=350, font = dict(size = 9))
+    figura_7.update_layout(font = dict(size = 9))
     return figura_1, figura_2, figura_3, figura_4, figura_5, figura_6, figura_7, figura_8
