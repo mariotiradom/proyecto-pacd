@@ -1,1 +1,9 @@
-# proyecto-pacd
+# Proyecto:
+Análisis de siniestros de tránsito en Lima y La Libertad (2021–2023): Distribución, relaciones y tendencias del tipo de vía, superficie de calzada, condición climática y clase de vehículo con el tipo de siniestro
+
+Bases de datos: Este proyecto emplea las bases de datos del Observatorio Nacional de Seguridad Vial (2023) que contiene información relevante para el estudio sobre siniestros de tránsito ocurridos entre los años 2021 y 2023. Esta información incluye variables como mes, día, hora, departamento, provincia, vehículo, tipo de siniestro, tipo de vía, condición climática, superficie de calzada, causa principal. De todas ellas, el presente análisis se enfoca en variables clave como la superficie de calzada, el tipo de vía, la condición climática y el tipo de vehículo, por su relevancia para identificar los contextos en los que ocurren con mayor frecuencia los accidentes fatales. 
+
+Problema: Si bien entidades como el Observatorio Nacional de Seguridad Vial ofrecen reportes públicos sobre la cantidad de accidentes a nivel nacional y departamental, estos no abordan con suficiente profundidad la posible relación entre los diferentes tipos de siniestros con factores como el tipo de vía, la superficie de calzada, la condición climática y el tipo de vehículo. Además, dichos reportes carecen de un análisis temporal que permita observar las tendencias de estas relaciones a lo largo de los años, especialmente en departamentos como Lima y La Libertad, pese a concentrar un número importante de accidentes de tránsito.
+
+Objetivo: Analizar la tendencia de los accidentes de tránsito en Lima y La Libertad entre los años 2021 y 2023, evaluando cómo los tipos de siniestro más frecuentes se relacionan con la superficie de calzada, tipo de vía, condición climática y tipo de vehículo.  
+
