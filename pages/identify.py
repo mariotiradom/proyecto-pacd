@@ -75,7 +75,7 @@ layout = dbc.Container([
         dbc.CardBody([
             html.H2("Identificación de municipalidad", className="text-center mb-4"),
             
-            dbc.Input(id="name-input", type="text", placeholder="Tu nombre", className="mb-3"),
+            dbc.Input(id="name-input", type="text", placeholder="Ingrese el nombre de la municipalidad", className="mb-3"),
             
             dbc.Row([
                 dbc.Col(dbc.Select(id='dep1-dropdown', 
